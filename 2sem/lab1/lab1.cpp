@@ -5,18 +5,24 @@ using namespace std;
 int main()
 {
     setlocale(LC_ALL, "");
-	int n=4;
-	Stack <int> T;
-	while (n != 0) {
+	int number_for_enter=4;
+	Stack<int> T;
+
+	while (number_for_enter != 0)
+	{
 		cout << "Введите число: ";
-		cin >> n;
-		T.push(n);
+		cin >> number_for_enter;
+		if (number_for_enter != 0)
+		{
+			T.push(number_for_enter);
+		}
 	}
+
 	while (T.count()) {
-		if (T.peek() > 0)
+		int number = T.pop();
+		if (number > 0)
 		{
 			cout << "Числа: " << T.peek() << endl;
 		}
-		T.pop();
 	}
 }
