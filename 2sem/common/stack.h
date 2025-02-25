@@ -13,12 +13,12 @@ private:
     /// </summary>
     struct Node
     {
-        T data; // Данные, хранящиеся в узле.
-        Node* next; // Указатель на следующий узел в стеке.
+        T data; //< Данные, хранящиеся в узле.
+        Node* next; //< Указатель на следующий узел в стеке.
     };
 
-    Node* top = nullptr; // Указатель на вершину стека.
-    int counter = 0; // Количество элементов в стеке.
+    Node* top = nullptr; //< Указатель на вершину стека.
+    int counter = 0; //< Количество элементов в стеке.
 
 public:
     /// <summary>
@@ -33,7 +33,7 @@ public:
     /// Добавляет элемент в стек.
     /// </summary>
     /// <param name="value">Значение, которое нужно добавить в стек.</param>
-    void push(T value)
+    void push(T& value)
     {
         Node* newNode = new Node();
         newNode->data = value;
