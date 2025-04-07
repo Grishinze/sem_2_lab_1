@@ -4,21 +4,22 @@
 /// Класс Stack реализует стек с использованием связного списка.
 /// Стек работает по принципу "последний пришел — первый вышел" (LIFO).
 /// </summary>
-    template <typename T>
-    class Stack
-    {
+template <typename T>
+class Stack
+{
 private:
-        /// <summary>
-        /// Внутренняя структура, представляющая узел стека.
-        /// </summary>
-        struct Node
-        {
-            T data; // Данные, хранящиеся в узле.
-            Node* next; // Указатель на следующий узел в стеке.
-            Node(T data, Node* next = nullptr) : data(data), next(next) {};
-        };
-       Node* top = nullptr; // Указатель на вершину стека.
-       int counter = 0; // Количество элементов в стеке.
+    /// <summary>
+    /// Внутренняя структура, представляющая узел стека.
+    /// </summary>
+    struct Node
+    {
+        T data;           // Данные, хранящиеся в узле.
+        Node* next;       // Указатель на следующий узел в стеке.
+        Node(T data, Node* next = nullptr) : data(data), next(next) {}
+    };
+
+    Node* top = nullptr; // Указатель на вершину стека.
+    int counter = 0;     // Количество элементов в стеке.
 
 public:
     /// <summary>
