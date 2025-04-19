@@ -20,7 +20,6 @@ private:
 
     Node* top = nullptr; // Указатель на вершину стека.
     int counter = 0;     // Количество элементов в стеке.
-    int size = 5;
 
 public:
     /// <summary>
@@ -37,20 +36,15 @@ public:
     /// <param name="value">Значение, которое нужно добавить в стек.</param>
     void push(T value)
     {
-        if (counter >= size)
-        {
-           return;
-        }
         top = new Node(value, top);
         ++counter;
-        
     }
 
     /// <summary>
     /// Удаляет верхний элемент из стека и возвращает его значение.
     /// </summary>
     /// <returns>Значение верхнего элемента стека.</returns>
-    /// <exception cref="std::runtime_error">Выбрасыывается, если стек пуст.</exception>
+    /// <exception cref="std::runtime_error">Выбрасывается, если стек пуст.</exception>
     T pop()
     {
         if (top == nullptr)
