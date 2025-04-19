@@ -1,4 +1,5 @@
 #pragma once
+#include "node.h"
 
 /// <summary>
 /// Шаблонная очередь Queue<T>, реализованная на основе односвязного списка.
@@ -10,24 +11,8 @@ class Queue
 {
 private:
 
-    /// <summary>
-    /// Узел очереди, содержащий значение и указатель на следующий элемент.
-    /// </summary>
-    struct Node
-    {
-        T data;         // Значение, хранящееся в узле.
-        Node* next;     // Указатель на следующий узел.
-
-        /// <summary>
-        /// Конструктор узла.
-        /// </summary>
-        /// <param name="data">Значение, которое хранится в узле.</param>
-        /// <param name="next">Указатель на следующий узел (по умолчанию nullptr).</param>
-        Node(T data, Node* next = nullptr) : data(data), next(next) {}
-    };
-
-    Node* head = nullptr; // Указатель на начало очереди.
-    Node* tail = nullptr; // Указатель на конец очереди.
+    Node<T>* head = nullptr; // Указатель на начало очереди.
+    Node<T>* tail = nullptr; // Указатель на конец очереди.
     int counter = 0;      // Текущее количество элементов в очереди.
 
 public:
@@ -46,7 +31,7 @@ public:
     /// <param name="value">Значение, которое нужно добавить.</param>
     void queue(T value)
     {
-        Node* temp = new Node(value);
+        Node<T>* temp = new Node<T>(value);
         if (tail != nullptr)
         {
             tail->next = temp;
@@ -71,7 +56,7 @@ public:
             throw std::out_of_range("Очередь пуста");
         }
 
-        Node* temp = head;
+        Node<T>* temp = head;
         T value = temp->data;
         head = head->next;
 
@@ -102,7 +87,7 @@ public:
     {
         while (head != nullptr)
         {
-            Node* temp = head;
+            Node<T>* temp = head;
             head = head->next;
             delete temp;
         }

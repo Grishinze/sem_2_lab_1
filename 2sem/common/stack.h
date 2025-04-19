@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "node.h"
 
 /// <summary>
 /// Класс Stack реализует стек с использованием связного списка.
@@ -8,17 +9,8 @@ template <typename T>
 class Stack
 {
 private:
-    /// <summary>
-    /// Внутренняя структура, представляющая узел стека.
-    /// </summary>
-    struct Node
-    {
-        T data;           // Данные, хранящиеся в узле.
-        Node* next;       // Указатель на следующий узел в стеке.
-        Node(T data, Node* next = nullptr) : data(data), next(next) {}
-    };
-
-    Node* top = nullptr; // Указатель на вершину стека.
+   
+    Node<T>* top = nullptr; // Указатель на вершину стека.
     int counter = 0;     // Количество элементов в стеке.
 
 public:
@@ -36,7 +28,7 @@ public:
     /// <param name="value">Значение, которое нужно добавить в стек.</param>
     void push(T value)
     {
-        top = new Node(value, top);
+        top = new Node<T>(value, top);
         ++counter;
     }
 
@@ -51,7 +43,7 @@ public:
         {
             throw "Stack is empty";
         }
-        Node* temp = top;
+        Node<T>* temp = top;
         T value = top->data;
         top = top->next;
         delete temp;
@@ -89,7 +81,7 @@ public:
     {
         while (top != nullptr)
         {
-            Node* temp = top;
+            Node<T>* temp = top;
             top = top->next;
             delete temp;
         }

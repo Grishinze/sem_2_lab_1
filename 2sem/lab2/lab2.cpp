@@ -3,9 +3,9 @@
 using namespace std;
 
 /// <summary>
-/// Вставляет число 1 перед каждым отрицательным числом в очереди.
+/// Вставляет число 1 перед каждым отрицательным элементом в очереди.
 /// </summary>
-/// <param name="queue">Очередь, в которую вставляются элементы.</param>
+/// <param name="queue">Очередь, в которую вставляются значения.</param>
 void insertNegativeNumber(Queue<int>& queue)
 {
 	int temp = queue.count();
@@ -65,11 +65,20 @@ int countOccurrences(Queue<int>& queue, int value)
 /// <param name="queue">Очередь для вывода.</param>
 void out(Queue<int>& queue)
 {
-	int temp = queue.count();
-	for (int i = 0; i < temp; i++)
+	Queue<int> tempQueue;
+	int size = queue.count();
+
+	for (int i = 0; i < size; i++)
 	{
-		int tempNum = queue.unqueue();
-		cout << tempNum << endl;
+		int val = queue.unqueue();   // снимаем
+		cout << val << " ";          // выводим
+		tempQueue.queue(val);        // сохраняем
+	}
+
+	// Возвращаем всё обратно
+	while (tempQueue.count() > 0)
+	{
+		queue.queue(tempQueue.unqueue());
 	}
 }
 
@@ -96,12 +105,12 @@ int main()
 {
 	setlocale(LC_ALL, "");
 	Queue<int> queue;
-	int choice;
 	bool running = true;
 
 	while (running)
 	{
 		menu();
+		int choice;
 		cin >> choice;
 
 		switch (choice)
