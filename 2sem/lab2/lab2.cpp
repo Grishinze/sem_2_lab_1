@@ -59,8 +59,7 @@ int countOccurrences(Queue<int>& queue, int value)
 }
 
 /// <summary>
-/// Выводит все элементы очереди в консоль.
-/// Очередь при этом очищается.
+/// Выводит все элементы очереди в консоль.            
 /// </summary>
 /// <param name="queue">Очередь для вывода.</param>
 void out(Queue<int>& queue)
@@ -70,9 +69,9 @@ void out(Queue<int>& queue)
 
 	for (int i = 0; i < size; i++)
 	{
-		int val = queue.unqueue();   // снимаем
-		cout << val << " ";          // выводим
-		tempQueue.queue(val);        // сохраняем
+		int temp = queue.unqueue();   // снимаем
+		cout << temp << " ";          // выводим
+		tempQueue.queue(temp);        // сохраняем
 	}
 
 	// Возвращаем всё обратно
