@@ -129,6 +129,11 @@
   <ItemGroup>
     <ClCompile Include="lab2.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\common\common.vcxproj">
+      <Project>{03912efa-acdf-44a6-863f-37ed36025d4b}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
