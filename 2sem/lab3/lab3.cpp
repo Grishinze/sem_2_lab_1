@@ -4,10 +4,10 @@
 using namespace std;
 
 /// <summary>
-/// Печатает текущее состояние очереди.
+/// Печатает текущее состояние списка.
 /// </summary>
 /// <param name="queue">Список с элементами очереди.</param>
-void printQueue(const CycleList<int>& queue) {
+void printList(const CycleList<int>& queue) {
     cout << "Текущая очередь: ";
     for (int i = 0; i < queue.count(); ++i) {
         cout << queue[i] << " ";
@@ -83,7 +83,7 @@ int main()
             break;
         }
         case 2: {
-            printQueue(queue);
+            printList(queue);
             break;
         }
         case 3: {

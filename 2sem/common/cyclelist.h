@@ -13,6 +13,22 @@ private:
     Node<T>* tail = nullptr;            // Указатель на конец списка
     int size = 0;                       // Количество элементов в списке
 
+    /// <summary>
+    /// Поиск узла по индексу
+    /// </summary>
+    /// <param name="index">Индекс узла</param>
+    /// <returns>Указатель на узел</returns>
+    Node<T>* getNodeAt(int index) const {
+        if (index < 0 || index >= size)
+            throw std::out_of_range("Invalid index");
+
+        Node<T>* current = tail->next;
+        for (int i = 0; i < index; ++i)
+            current = current->next;
+
+        return current;
+    }
+
 public:
     /// <summary> Деструктор: вызывает метод clear() </summary>
     ~CycleList()
@@ -62,12 +78,7 @@ public:
         {
             Node<T>* prev = tail;
 
-            if (index != 0)
-            {
-                prev = tail->next;
-                for (int i = 0; i < index - 1; i++)
-                    prev = prev->next;
-            }
+            Node<T>* prev = (index == 0) ? tail : getNodeAt(index - 1);
 
             newNode->next = prev->next;
             prev->next = newNode;
@@ -100,10 +111,7 @@ public:
         }
         else
         {
-            Node<T>* prev = tail->next;
-            for (int i = 0; i < index - 1; i++)
-                prev = prev->next;
-
+            Node<T>* prev = getNodeAt(index - 1);
             toDelete = prev->next;
             prev->next = toDelete->next;
 
@@ -115,17 +123,11 @@ public:
         size--;
     }
 
+
     /// <summary> Получение ссылки на элемент по индексу </summary>
     T& operator[](const int index) const
     {
-        if (index < 0 || index >= size)                     // Проверка индекса
-            throw std::out_of_range("Invalid index");
-
-        Node<T>* current = tail->next;                      // Начинаем с головы
-        for (int i = 0; i < index; i++)                     // Доходим до нужного индекса
-            current = current->next;
-
-        return current->data;                               // Возвращаем данные
+        return getNodeAt(index)->data;                            
     }
 
     /// <summary> Получение количества элементов </summary>
