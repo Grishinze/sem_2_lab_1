@@ -76,8 +76,6 @@ public:
         }
         else
         {
-            Node<T>* prev = tail;
-
             Node<T>* prev = (index == 0) ? tail : getNodeAt(index - 1);
 
             newNode->next = prev->next;
