@@ -119,6 +119,18 @@ public:
             tail = newNode;
             newNode->next = newNode;
         }
+        else if (index == 0)
+        {
+            // Вставка в начало
+            newNode->next = tail->next;
+            tail->next = newNode;
+        }
+        else if (index == size)
+        {
+            newNode->next = tail->next;
+            tail->next = newNode;
+            tail = newNode;
+        }
         else
         {
             Iterator it = begin();
