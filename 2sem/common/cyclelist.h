@@ -13,21 +13,66 @@ private:
     Node<T>* tail = nullptr;            // Указатель на конец списка
     int size = 0;                       // Количество элементов в списке
 
+public:
     /// <summary>
-    /// Поиск узла по индексу
+    /// Итератор для перебора элементов списка.
     /// </summary>
-    /// <param name="index">Индекс узла</param>
-    /// <returns>Указатель на узел</returns>
-    Node<T>* getNodeAt(int index) const {
-        if (index < 0 || index >= size)
-            throw std::out_of_range("Invalid index");
+    struct Iterator
+    {
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = T;
+        using reference = T&;
+        using pointer = T*;
 
-        Node<T>* current = tail->next;
-        for (int i = 0; i < index; ++i)
-            current = current->next;
+        Node<T>* current; // Текущий узел списка.
+        int remaining;    // Количество оставшихся элементов для перебора.
 
-        return current;
+        Iterator(Node<T>* start, int count)
+            : current(start), remaining(count) {}
+
+        reference operator*() const { return current->data; }
+        pointer operator->() const { return &(current->data); }
+
+        Iterator& operator++()
+        {
+            if (remaining > 0 && current)
+            {
+                current = current->next;
+                --remaining;
+                if (remaining == 0)
+                    current = nullptr;
+            }
+            return *this;
+        }
+
+        Iterator operator++(int)
+        {
+            Iterator temp = *this;
+            ++(*this);
+            return temp;
+        }
+
+        bool operator==(const Iterator& other) const
+        {
+            return current == other.current;
+        }
+
+        bool operator!=(const Iterator& other) const
+        {
+            return !(*this == other);
+        }
+    };
+
+    Iterator begin() const
+    {
+        return Iterator(tail ? tail->next : nullptr, size);
     }
+
+    Iterator end() const
+    {
+        return Iterator(nullptr, 0);
+    }
+
 
 public:
     /// <summary> Деструктор: вызывает метод clear() </summary>
@@ -76,10 +121,17 @@ public:
         }
         else
         {
-            Node<T>* prev = (index == 0) ? tail : getNodeAt(index - 1);
+            Iterator it = begin();
+            Iterator prev = it;
 
-            newNode->next = prev->next;
-            prev->next = newNode;
+            for (int i = 0; i < index; ++i)
+            {
+                prev = it;
+                ++it;
+            }
+
+            newNode->next = it.current;
+            prev.current->next = newNode;
 
             if (index == size)
                 tail = newNode;
@@ -102,19 +154,24 @@ public:
             toDelete = tail;
             tail = nullptr;
         }
-        else if (index == 0)
-        {
-            toDelete = tail->next;
-            tail->next = toDelete->next;
-        }
         else
         {
-            Node<T>* prev = getNodeAt(index - 1);
-            toDelete = prev->next;
-            prev->next = toDelete->next;
+            Iterator it = begin();
+            Iterator prev = it;
+
+            for (int i = 0; i < index; ++i)
+            {
+                prev = it;
+                ++it;
+            }
+
+            toDelete = it.current;
+            prev.current->next = toDelete->next;
 
             if (toDelete == tail)
-                tail = prev;
+                tail = prev.current;
+            else if (toDelete == tail->next)
+                tail->next = toDelete->next;
         }
 
         delete toDelete;
@@ -125,7 +182,14 @@ public:
     /// <summary> Получение ссылки на элемент по индексу </summary>
     T& operator[](const int index) const
     {
-        return getNodeAt(index)->data;                            
+        if (index < 0 || index >= size)
+            throw std::out_of_range("Invalid index");
+
+        Iterator it = begin();
+        for (int i = 0; i < index; ++i)
+            ++it;
+
+        return *it;
     }
 
     /// <summary> Получение количества элементов </summary>
@@ -137,19 +201,13 @@ public:
     /// <summary> Подсчёт количества вхождений значения </summary>
     int count(T value) const
     {
-        if (!tail) return 0;                                // Если список пуст — 0
-
-        int counter = 0;                                    // Счётчик вхождений
-        Node<T>* current = tail->next;
-
-        for (int i = 0; i < size; i++)
-        {                                                   // Проходим по всем узлам
-            if (current->data == value) 
-                counter++;                                  // Если данные совпадают — +1
-            current = current->next;                        // Переход к следующему
+        int counter = 0;
+        for (auto it = begin(); it != end(); ++it)
+        {
+            if (*it == value)
+                counter++;
         }
-
-        return counter;                                     // Возвращаем результат
+        return counter;
     }
 
     /// <summary> Полная очистка списка </summary>

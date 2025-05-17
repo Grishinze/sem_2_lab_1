@@ -6,22 +6,22 @@ using namespace std;
 /// <summary>
 /// Печатает текущее состояние списка.
 /// </summary>
-/// <param name="queue">Список с элементами очереди.</param>
-void printList(const CycleList<int>& queue) {
+/// <param name="queue">Список с элементами списка.</param>
+void printList(const CycleList<int>& ciclelist) {
     cout << "Текущая очередь: ";
-    for (int i = 0; i < queue.count(); ++i) {
-        cout << queue[i] << " ";
+    for (int i = 0; i < ciclelist.count(); ++i) {
+        cout << ciclelist[i] << " ";
     }
     cout << endl;
 }
 
 /// <summary>
-/// Вставляет значение 1 перед каждым отрицательным элементом в очереди.
+/// Вставляет значение 1 перед каждым отрицательным элементом в списка.
 /// </summary>
-void insertBeforeNegatives(CycleList<int>& queue) {
-    for (int i = 0; i < queue.count(); ++i) {
-        if (queue[i] < 0) {
-            queue.insert(i, 1);  // Вставляем 1 перед отрицательным
+void insertBeforeNegatives(CycleList<int>& ciclelist) {
+    for (int i = 0; i < ciclelist.count(); ++i) {
+        if (ciclelist[i] < 0) {
+            ciclelist.insert(i, 1);  // Вставляем 1 перед отрицательным
             ++i;                 // Пропускаем вставленную 1
         }
     }
@@ -30,11 +30,11 @@ void insertBeforeNegatives(CycleList<int>& queue) {
 /// <summary>
 /// Удаляет все элементы с отрицательными значениями.
 /// </summary>
-void removeNegatives(CycleList<int>& queue) {
+void removeNegatives(CycleList<int>& ciclelist) {
     int i = 0;
-    while (i < queue.count()) {
-        if (queue[i] < 0) {
-            queue.removeAt(i);  // Удаляем и не увеличиваем i
+    while (i < ciclelist.count()) {
+        if (ciclelist[i] < 0) {
+            ciclelist.removeAt(i);  // Удаляем и не увеличиваем i
         }
         else {
             ++i;  // Переход к следующему элементу
