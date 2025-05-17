@@ -119,12 +119,6 @@ public:
             tail = newNode;
             newNode->next = newNode;
         }
-        else if (index == 0)
-        {
-            // Вставка в начало
-            newNode->next = tail->next;
-            tail->next = newNode;
-        }
         else if (index == size)
         {
             newNode->next = tail->next;
@@ -133,20 +127,16 @@ public:
         }
         else
         {
-            Iterator it = begin();
-            Iterator prev = it;
+            Iterator prev = begin();
 
             for (int i = 0; i < index; ++i)
             {
-                prev = it;
-                ++it;
+                ++prev;
             }
 
-            newNode->next = it.current;
+            newNode->next = prev.current->next;
             prev.current->next = newNode;
 
-            if (index == size)
-                tail = newNode;
         }
 
         size++;
