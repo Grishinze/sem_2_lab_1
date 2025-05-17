@@ -1,20 +1,112 @@
-﻿// lab3.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <iostream>
+#include "CycleList.h"  // Подключаем нашу структуру
 
-#include <iostream>
+using namespace std;
+
+/// <summary>
+/// Печатает текущее состояние списка.
+/// </summary>
+/// <param name="queue">Список с элементами списка.</param>
+void printList(const CycleList<int>& ciclelist) {
+    cout << "Текущая очередь: ";
+    for (int i = 0; i < ciclelist.count(); ++i) {
+        cout << ciclelist[i] << " ";
+    }
+    cout << endl;
+}
+
+/// <summary>
+/// Вставляет значение 1 перед каждым отрицательным элементом в списка.
+/// </summary>
+void insertBeforeNegatives(CycleList<int>& ciclelist) {
+    for (int i = 0; i < ciclelist.count(); ++i) {
+        if (ciclelist[i] < 0) {
+            ciclelist.insert(i, 1);  // Вставляем 1 перед отрицательным
+            ++i;                 // Пропускаем вставленную 1
+        }
+    }
+}
+
+/// <summary>
+/// Удаляет все элементы с отрицательными значениями.
+/// </summary>
+void removeNegatives(CycleList<int>& ciclelist) {
+    int i = 0;
+    while (i < ciclelist.count()) {
+        if (ciclelist[i] < 0) {
+            ciclelist.removeAt(i);  // Удаляем и не увеличиваем i
+        }
+        else {
+            ++i;  // Переход к следующему элементу
+        }
+    }
+}
+
+/// <summary>
+/// Главное меню управления очередью.
+/// </summary>
+void Menu() {
+    cout << "\n===== МЕНЮ =====" << endl;
+    cout << "1. Добавить элемент в очередь" << endl;
+    cout << "2. Показать очередь" << endl;
+    cout << "3. Вставить 1 перед отрицательными числами" << endl;
+    cout << "4. Удалить все отрицательные элементы" << endl;
+    cout << "5. Очистить очередь" << endl;
+    cout << "0. Выход" << endl;
+    cout << "Выберите пункт: ";
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    setlocale(LC_ALL, "");
+    CycleList<int> queue;
+
+    int choice;
+    do {
+        Menu();
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+        {
+            int value;
+            cout << "Введите элементы (0 — завершить ввод):" << endl;
+
+            while (true) {
+                cin >> value;              // Считываем число от пользователя
+                if (value == 0) {
+                    break;                 // Если ввели 0 — завершаем ввод
+                }
+                queue.add(value);
+            }
+
+            break;
+        }
+        case 2: {
+            printList(queue);
+            break;
+        }
+        case 3: {
+            insertBeforeNegatives(queue);
+            cout << "Вставка выполнена." << endl;
+            break;
+        }
+        case 4: {
+            removeNegatives(queue);
+            cout << "Удаление выполнено." << endl;
+            break;
+        }
+        case 5: {
+            queue.clear();
+            cout << "Очередь очищена." << endl;
+            break;
+        }
+        case 0: {
+            cout << "Завершение работы программы." << endl;
+            break;
+        }
+        default:
+            cout << "Неверный пункт меню. Попробуйте ещё раз." << endl;
+        }
+    } while (choice != 0);
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
